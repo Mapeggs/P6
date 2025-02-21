@@ -1,7 +1,7 @@
 from models.model import Model
 from tensorflow.keras import Sequential, layers
 from tensorflow.keras.layers import Rescaling
-from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.optimizers import Adam
 
 class BasicModel(Model):
     def _define_model(self, input_shape, categories_count):
@@ -20,7 +20,7 @@ class BasicModel(Model):
     
     def _compile_model(self):
         self.model.compile(
-            optimizer=RMSprop(learning_rate=0.001),
+            optimizer=Adam(),
             loss='categorical_crossentropy',
             metrics=['accuracy']
         )

@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from preprocess import get_datasets
 from models.basic_model import BasicModel
 from models.model import Model
@@ -21,17 +22,17 @@ def plot_history(history):
 
     epochs = range(1, len(acc) + 1)
 
-    plt.figure(figsize = (24, 6))
-    plt.subplot(1,2,1)
-    plt.plot(epochs, acc, 'b', label = 'Training Accuracy')
-    plt.plot(epochs, val_acc, 'r', label = 'Validation Accuracy')
+    plt.figure(figsize=(24, 6))
+    plt.subplot(1, 2, 1)
+    plt.plot(epochs, acc, 'b', label='Training Accuracy')
+    plt.plot(epochs, val_acc, 'r', label='Validation Accuracy')
     plt.grid(True)
     plt.legend()
     plt.xlabel('Epoch')
 
-    plt.subplot(1,2,2)
-    plt.plot(epochs, loss, 'b', label = 'Training Loss')
-    plt.plot(epochs, val_loss, 'r', label = 'Validation Loss')
+    plt.subplot(1, 2, 2)
+    plt.plot(epochs, loss, 'b', label='Training Loss')
+    plt.plot(epochs, val_loss, 'r', label='Validation Loss')
     plt.grid(True)
     plt.legend()
     plt.xlabel('Epoch')
@@ -45,7 +46,7 @@ if __name__ == "__main__":
     # plot_history(history)
     # 
     # Your code should change the number of epochs
-    epochs = 5
+    epochs = 11
     print('* Data preprocessing')
     train_dataset, validation_dataset, test_dataset = get_datasets()
     name = 'basic_model'
@@ -58,6 +59,11 @@ if __name__ == "__main__":
     model.evaluate(test_dataset)
     print('* Confusion Matrix for {}'.format(name))
     print(model.get_confusion_matrix(test_dataset))
+    
+    # Create results directory if it does not exist
+    if not os.path.exists('results'):
+        os.makedirs('results')
+    
     model_name = '{}_{}_epochs_timestamp_{}'.format(name, epochs, int(time.time()))
     filename = 'results/{}.keras'.format(model_name)
     model.save_model(filename)
